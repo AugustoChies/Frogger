@@ -16,6 +16,7 @@ public class MovingObjectBehavior : MonoBehaviour
     private void Awake()
     {
         rb = this.GetComponent<Rigidbody>();
+        lane = transform.parent.GetComponent<LaneObject>();
     }
 
     private void Start()
