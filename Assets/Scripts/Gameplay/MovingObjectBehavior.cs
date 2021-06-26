@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class MovingObjectBehavior : MonoBehaviour
 {    
-    public LaneObject lane = null;
+    private LaneObject lane = null;
     public Transform leftLimit, rightLimit;
 
     protected Rigidbody rb;
@@ -13,7 +13,7 @@ public class MovingObjectBehavior : MonoBehaviour
 
     protected Vector3 startingPos;
 
-    private void Awake()
+    protected virtual void Awake()
     {
         rb = this.GetComponent<Rigidbody>();
         lane = transform.parent.GetComponent<LaneObject>();
@@ -54,5 +54,10 @@ public class MovingObjectBehavior : MonoBehaviour
                 rb.MovePosition(startingPos);
             }
         }
+    }
+
+    public virtual void ChangeMode()
+    {
+        //
     }
 }
