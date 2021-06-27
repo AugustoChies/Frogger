@@ -9,9 +9,8 @@ public class LaneManager : MonoBehaviour
     [SerializeField] private List<GameObject> _lanesList;
     public List<GameObject> LanesList => _lanesList;
 
-    public StageObject[] Stages;
-
-    public List<LaneObject> laneObjects;
+    public StageObject Stages;
+    public GameObject currentStage;
 
     public int levelID = 0;
     private void Awake()
@@ -21,16 +20,15 @@ public class LaneManager : MonoBehaviour
 
         Instance = this;
 
-        SetLevelParameters(0);
+        //SetLevelParameters(0);
     }
 
     public void SetLevelParameters(int levelID)
     {
-        StageObject newStage = Stages[levelID];
-
-        for(int i = 0; i < laneObjects.Count; i++)
+        if(currentStage != null)
         {
-            laneObjects[i].GetComponent<LaneObject>().generalSpeed = newStage.lanesSpeedList[i];
+            Destroy(currentStage);
         }
+        currentStage = Instantiate(Stages.stages[levelID]);
     }
 }

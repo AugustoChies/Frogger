@@ -46,9 +46,13 @@ public class EndingSpot : MonoBehaviour
 
         yield return new WaitForSeconds(TimetoGatorSurface);
         gatorWaitModel.SetActive(false);
-        gatorSurfaceModel.SetActive(true);
-
-        yield return new WaitForSeconds(TimetoGatorDive);
-        gatorSurfaceModel.SetActive(false);
+        if (!HasFrog)
+        {           
+            gatorSurfaceModel.SetActive(true);
+            gatorActive = true;
+            yield return new WaitForSeconds(TimetoGatorDive);
+            gatorSurfaceModel.SetActive(false);
+            gatorActive = false;
+        }
     }
 }

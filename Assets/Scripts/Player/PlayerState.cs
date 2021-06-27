@@ -1,5 +1,6 @@
 public enum PlayerState
 {
     Still,
-    Moving
+    Moving,
+    Inactive
 }

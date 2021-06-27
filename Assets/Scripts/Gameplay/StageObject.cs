@@ -5,5 +5,5 @@ using UnityEngine;
 [CreateAssetMenu()]
 public class StageObject : ScriptableObject
 {
-    public float[] lanesSpeedList;
+    public List<GameObject> stages = new List<GameObject>();
 }

@@ -3,26 +3,25 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using MLAPI;
-using MLAPI.Transports.UNET;
 using MLAPI.Transports.PhotonRealtime;
-using MLAPI.Messaging;
 using UnityEngine.SceneManagement;
-using WebSocketSharp;
+
 public class PhotonController : MonoBehaviour
 {
+    public static PhotonController Instance;
     public InputField roomField;
     public GameObject waitingRoomPanel;
-    public GameObject lanes;
     public GameObject photonPanelsHolder;
 
     private void Awake()
     {
+        Instance = this;
         Application.targetFrameRate = 60;
         QualitySettings.vSyncCount = 1;
     }
 
     private void Start()
-    {
+    {        
         if (PlayerPrefs.HasKey("LastUsedKey"))
         {
             roomField.text = PlayerPrefs.GetString("LastUsedKey");
@@ -56,9 +55,12 @@ public class PhotonController : MonoBehaviour
 
     public void StartSinglePlayer()
     {
-        if(lanes) lanes.SetActive(true);
         photonPanelsHolder.gameObject.SetActive(false);
+        LaneManager.Instance.SetLevelParameters(0);
+        NetworkInfoManager.Instance.EnablePlayers();
     }
+
+    
 
     public void Back()
     {

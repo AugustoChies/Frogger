@@ -2,10 +2,14 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using MLAPI;
+using MLAPI.Transports.PhotonRealtime;
+using MLAPI.Messaging;
 
-public class PlayerMovement : MonoBehaviour
+public class PlayerMovement : NetworkBehaviour
 {
-    [SerializeField] private PlayerState _playerState = PlayerState.Still;
+    [SerializeField] private PlayerState _playerState = PlayerState.Inactive;
+    public PlayerState ThisPlayerState { get => _playerState; set => _playerState = value;}
     [SerializeField] private int _currentPlayerLane = 0;
 
     [SerializeField] private float lateralMovementDistance;
@@ -19,8 +23,15 @@ public class PlayerMovement : MonoBehaviour
 
     public GameObject lastCollided;
 
-    private void Awake()
+    private void Start()
     {
+        NetworkInfoManager.Instance.players.Add(this);
+        if (!IsOwner) return;
+
+        if(!IsHost)
+        {
+            StartLevelServerRPC();
+        }
         lastCollided = this.gameObject;
         originalPos = transform.position;
         print("Current Lives: " + currentLives);
@@ -28,6 +39,8 @@ public class PlayerMovement : MonoBehaviour
 
     private void Update()
     {
+        if (!IsOwner) return;
+
         if (_playerState == PlayerState.Still)
         {
             HandleKeyInputs();
@@ -111,6 +124,8 @@ public class PlayerMovement : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        if (!IsOwner) return;
+
         if (other.CompareTag("Hazard"))
         {
             KillPlayer();
@@ -163,5 +178,19 @@ public class PlayerMovement : MonoBehaviour
             Destroy(this.gameObject); //temporary solution?
         }
 
+    }
+
+    [ClientRpc]
+    public void StartLevelClientRPC()
+    {
+        PhotonController.Instance.photonPanelsHolder.gameObject.SetActive(false);
+        LaneManager.Instance.SetLevelParameters(0);
+        NetworkInfoManager.Instance.EnablePlayers();
+    }
+
+    [ServerRpc]
+    public void StartLevelServerRPC()
+    {
+        StartLevelClientRPC();
     }
 }
