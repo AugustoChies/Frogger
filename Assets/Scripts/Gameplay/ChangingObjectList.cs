@@ -14,9 +14,4 @@ public class ChangingObjectList : ScriptableObject
             t.ChangeMode();
         }
     }
-
-    public void UpdateGators()
-    {
-        //
-    }
 }

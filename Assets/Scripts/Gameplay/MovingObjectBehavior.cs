@@ -5,7 +5,7 @@ using UnityEngine;
 public class MovingObjectBehavior : MonoBehaviour
 {    
     private LaneObject lane = null;
-    public Transform leftLimit, rightLimit;
+    private Transform leftLimit, rightLimit;
 
     protected Rigidbody rb;
     protected float colliderScale;
@@ -17,6 +17,8 @@ public class MovingObjectBehavior : MonoBehaviour
     {
         rb = this.GetComponent<Rigidbody>();
         lane = transform.parent.GetComponent<LaneObject>();
+        leftLimit = lane.leftLimit;
+        rightLimit = lane.rightLimit;
     }
 
     private void Start()

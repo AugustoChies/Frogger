@@ -5,4 +5,5 @@ using UnityEngine;
 public class LaneObject : MonoBehaviour
 {
     public float generalSpeed;
+    public Transform leftLimit, rightLimit;
 }
