@@ -15,6 +15,12 @@ public class PhotonController : MonoBehaviour
     public GameObject lanes;
     public GameObject photonPanelsHolder;
 
+    private void Awake()
+    {
+        Application.targetFrameRate = 60;
+        QualitySettings.vSyncCount = 1;
+    }
+
     private void Start()
     {
         if (PlayerPrefs.HasKey("LastUsedKey"))
