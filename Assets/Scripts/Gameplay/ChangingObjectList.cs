@@ -5,7 +5,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "ObjectsList")]
 public class ChangingObjectList : ScriptableObject
 {
-    public List<Turtle> TurtleList = new List<Turtle>();   
+    public List<Turtle> TurtleList = new List<Turtle>();
 
     public void UpdateTurtles()
     {

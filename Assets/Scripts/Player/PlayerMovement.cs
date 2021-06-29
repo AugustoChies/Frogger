@@ -16,6 +16,7 @@ public class PlayerMovement : NetworkBehaviour
     [SerializeField] private float playerSpeed;
 
     public bool isCollidingWithLog = false;
+    public bool hasLadyFrog = false;
 
     public Vector3 originalPos;
 
@@ -164,18 +165,23 @@ public class PlayerMovement : NetworkBehaviour
 
     public void KillPlayer()
     {
-        transform.position = originalPos;
-        currentLives--;
-        _currentPlayerLane = 0;
-        _playerState = PlayerState.Still;
-        StopAllCoroutines();
-
-        print("Current Lives: " + currentLives);
-
-        if(currentLives < 0)
+        if (IsOwner)
         {
-            print("You've Died");
-            Destroy(this.gameObject); //temporary solution?
+            hasLadyFrog = false;
+            transform.parent = null;
+            transform.position = originalPos;
+            currentLives--;
+            _currentPlayerLane = 0;
+            _playerState = PlayerState.Still;
+            StopAllCoroutines();
+
+            print("Current Lives: " + currentLives);
+
+            if (currentLives < 0)
+            {
+                print("You've Died");
+                Destroy(this.gameObject); //temporary solution?
+            }
         }
 
     }
@@ -192,5 +198,14 @@ public class PlayerMovement : NetworkBehaviour
     public void StartLevelServerRPC()
     {
         StartLevelClientRPC();
+    }
+
+    public void CallLadyGot(LadyFrog frog)
+    {        
+        if (IsOwner)
+        {
+            frog.CallDisabled();
+            hasLadyFrog = true;
+        }
     }
 }

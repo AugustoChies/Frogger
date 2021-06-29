@@ -921,7 +921,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   roomField: {fileID: 7847495895438670003}
   waitingRoomPanel: {fileID: 7847495894362930890}
-  lanes: {fileID: 0}
   photonPanelsHolder: {fileID: 7847495895643144704}
 --- !u!1 &7847495894418905108
 GameObject:
@@ -1058,6 +1057,8 @@ MonoBehaviour:
     NetworkPrefabs:
     - Prefab: {fileID: 6044085027889888716, guid: 5513c37f05098414e8472a02f48fdb7a, type: 3}
       PlayerPrefab: 1
+    - Prefab: {fileID: 2595046262734406421, guid: 8c00f8c8453250c458b5e7e50be4dc2c, type: 3}
+      PlayerPrefab: 0
     PlayerPrefabHash:
       id: 0
     CreatePlayerPrefab: 1

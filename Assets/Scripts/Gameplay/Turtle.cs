@@ -18,6 +18,9 @@ public class Turtle : MovingObjectBehavior
     [SerializeField]
     private bool unchanging = false;
 
+    public PlayerMovement[] playersOnBack;
+    private PlayerMovement[] emptyPlayerMovements = new PlayerMovement[0];
+
     protected override void Awake()
     {
         base.Awake();
@@ -50,6 +53,12 @@ public class Turtle : MovingObjectBehavior
                 mycollider.enabled = true;
                 break;            
             case 2:
+                playersOnBack = gameObject.GetComponentsInChildren<PlayerMovement>();
+                for (int i = 0; i < playersOnBack.Length; i++)
+                {
+                    playersOnBack[i].KillPlayer();
+                }
+                playersOnBack = emptyPlayerMovements;
                 mycollider.enabled = false;
                 break;
             default:
