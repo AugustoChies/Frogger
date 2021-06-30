@@ -17,8 +17,8 @@ public class EndingSpot : MonoBehaviour
     public float TimetoGatorSurface = 2;
     [HideInInspector]
     public float TimetoGatorDive = 2;
-
-    private bool gatorActive = false;
+    [HideInInspector]
+    public bool gatorActive = false;
 
     public void PlayerReached()
     {

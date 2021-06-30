@@ -4,8 +4,9 @@ using UnityEngine;
 
 public class StageControl : MonoBehaviour
 {
-    [SerializeField]
-    private List<EndingSpot> endingSpots = new List<EndingSpot>();
+    public static StageControl CurrentStage;
+
+    public List<EndingSpot> endingSpots = new List<EndingSpot>();
     private List<EndingSpot> emptySpots = new List<EndingSpot>();
 
     [SerializeField]
@@ -22,6 +23,7 @@ public class StageControl : MonoBehaviour
 
     private void Awake()
     {
+        CurrentStage = this;
         foreach (EndingSpot spot in endingSpots)
         {
             spot.TimetoGatorDive = GatorDiveTime;
@@ -31,12 +33,36 @@ public class StageControl : MonoBehaviour
 
     private void Update()
     {
+        if (!hasEndGator) return;
+
         currentTime += Time.deltaTime;
         if(currentTime >= (GatorArriveTime + GatorDiveTime + GatorWaitTime))
         {
             currentTime = 0;
             ActivateAligator();
         }
+    }
+
+    public void ActivateFrog(int index)
+    {
+        if (endingSpots[0] != null)
+        {
+            endingSpots[index].PlayerReached();
+            CheckStageEnd();
+        }
+    }
+
+    public void CheckStageEnd()
+    {        
+        for (int i = 0; i < endingSpots.Count; i++)
+        {
+            if(!endingSpots[i].HasFrog)
+            {
+                return;
+            }
+        }
+        Debug.Log("END STAGE");
+        LaneManager.Instance.NextStage();
     }
 
 

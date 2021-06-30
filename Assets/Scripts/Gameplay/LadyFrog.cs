@@ -60,7 +60,7 @@ public class LadyFrog : NetworkBehaviour
         
         for (float i = 0; i < timeperHop; i+= Time.deltaTime)
         {
-            this.transform.localPosition = Vector3.Lerp(originalPos, newPos, i);
+            this.transform.localPosition = Vector3.Lerp(originalPos, newPos, i / timeperHop);
             yield return null;
         }
         

@@ -122,7 +122,7 @@ MonoBehaviour:
   - {fileID: 2076035644294410091}
   - {fileID: 3697763732476494226}
   - {fileID: 2523377026217179268}
-  hasEndGator: 1
+  hasEndGator: 0
   GatorArriveTime: 5
   GatorWaitTime: 1.5
   GatorDiveTime: 2

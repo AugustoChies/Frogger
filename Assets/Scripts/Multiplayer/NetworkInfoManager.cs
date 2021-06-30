@@ -18,6 +18,7 @@ public class NetworkInfoManager : MonoBehaviour
     {
         for (int i = 0; i < players.Count; i++)
         {
+            players[i].GoBackToSpawn();
             players[i].ThisPlayerState = PlayerState.Still;
         }
     }

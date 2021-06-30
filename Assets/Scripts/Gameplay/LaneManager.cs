@@ -12,7 +12,7 @@ public class LaneManager : MonoBehaviour
     public StageObject Stages;
     public GameObject currentStage;
 
-    public int levelID = 0;
+    public int LevelID = 0;
     private void Awake()
     {
         Application.targetFrameRate = 60;
@@ -30,5 +30,22 @@ public class LaneManager : MonoBehaviour
             Destroy(currentStage);
         }
         currentStage = Instantiate(Stages.stages[levelID]);
+    }
+
+    public void NextStage()
+    {
+        LevelID++;
+        if(LevelID >= _lanesList.Count)
+        {
+            LevelID = 0;
+            //reset game for now
+            Debug.Log("ResetGame");
+            PhotonController.Instance.Back();
+        }
+        else
+        {
+            NetworkInfoManager.Instance.EnablePlayers();
+            SetLevelParameters(LevelID);
+        }
     }
 }

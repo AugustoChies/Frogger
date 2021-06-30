@@ -127,6 +127,20 @@ public class PlayerMovement : NetworkBehaviour
     {
         if (!IsOwner) return;
 
+        if (other.CompareTag("EndPoint"))
+        {
+            if(other.GetComponent<EndingSpot>().gatorActive || other.GetComponent<EndingSpot>().HasFrog)
+            {
+                KillPlayer();
+            }
+            else
+            {
+                GoBackToSpawn();
+                int id = StageControl.CurrentStage.endingSpots.IndexOf(other.GetComponent<EndingSpot>());
+                GetToEndServerRPC(id);
+            }            
+        }
+
         if (other.CompareTag("Hazard"))
         {
             KillPlayer();
@@ -186,6 +200,14 @@ public class PlayerMovement : NetworkBehaviour
 
     }
 
+    public void GoBackToSpawn()
+    {
+        transform.position = originalPos;
+        _currentPlayerLane = 0;
+        _playerState = PlayerState.Still;
+        StopAllCoroutines();
+    }
+
     [ClientRpc]
     public void StartLevelClientRPC()
     {
@@ -207,5 +229,17 @@ public class PlayerMovement : NetworkBehaviour
             frog.CallDisabled();
             hasLadyFrog = true;
         }
+    }
+
+    [ServerRpc]
+    public void GetToEndServerRPC(int index)
+    {
+        GetToEndClientRPC(index);
+    }
+
+    [ClientRpc]
+    public void GetToEndClientRPC(int index)
+    {
+        StageControl.CurrentStage.ActivateFrog(index);
     }
 }
