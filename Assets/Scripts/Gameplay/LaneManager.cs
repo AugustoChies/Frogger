@@ -13,6 +13,8 @@ public class LaneManager : MonoBehaviour
     public GameObject currentStage;
 
     public int LevelID = 0;
+
+    public int lives = 2;
     private void Awake()
     {
         Application.targetFrameRate = 60;

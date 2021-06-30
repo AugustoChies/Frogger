@@ -20,27 +20,28 @@ public class PlayerMovement : NetworkBehaviour
 
     public Vector3 originalPos;
 
-    public float currentLives = 2;
-
     public GameObject lastCollided;
 
+    public float minX, maxX;
     private void Start()
     {
         NetworkInfoManager.Instance.players.Add(this);
         if (!IsOwner) return;
 
-        if(!IsHost)
+        HudController.Instance.UpdateLives();
+
+        if (!IsHost)
         {
             StartLevelServerRPC();
         }
         lastCollided = this.gameObject;
         originalPos = transform.position;
-        print("Current Lives: " + currentLives);
     }
 
     private void Update()
     {
         if (!IsOwner) return;
+
 
         if (_playerState == PlayerState.Still)
         {
@@ -58,13 +59,15 @@ public class PlayerMovement : NetworkBehaviour
         {
             StartCoroutine(GoToLane(_currentPlayerLane - 1));
         }
-        if (Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.RightArrow))
+        if (Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.RightArrow) && transform.position.x > minX && transform.position.x < maxX)
         {
+            if(transform.position.x + lateralMovementDistance < maxX)
             StartCoroutine(MoveSideways(transform.position.x + lateralMovementDistance));
         }
-        if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.LeftArrow))
+        if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.LeftArrow) && transform.position.x > minX && transform.position.x < maxX)
         {
-            StartCoroutine(MoveSideways(transform.position.x - lateralMovementDistance));
+            if (transform.position.x - lateralMovementDistance > minX)
+                StartCoroutine(MoveSideways(transform.position.x - lateralMovementDistance));
         }
     }
 
@@ -184,14 +187,15 @@ public class PlayerMovement : NetworkBehaviour
             hasLadyFrog = false;
             transform.parent = null;
             transform.position = originalPos;
-            currentLives--;
+            LaneManager.Instance.lives--;
+            HudController.Instance.UpdateLives();
             _currentPlayerLane = 0;
             _playerState = PlayerState.Still;
             StopAllCoroutines();
 
-            print("Current Lives: " + currentLives);
+            print("Current Lives: " + LaneManager.Instance.lives);
 
-            if (currentLives < 0)
+            if (LaneManager.Instance.lives < 0)
             {
                 print("You've Died");
                 Destroy(this.gameObject); //temporary solution?

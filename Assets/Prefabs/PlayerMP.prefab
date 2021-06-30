@@ -116,9 +116,11 @@ MonoBehaviour:
   lateralMovementDistance: 3
   playerSpeed: 10
   isCollidingWithLog: 0
+  hasLadyFrog: 0
   originalPos: {x: 0, y: 0, z: 0}
-  currentLives: 2
   lastCollided: {fileID: 0}
+  minX: -20
+  maxX: 20
 --- !u!114 &4072175262802869211
 MonoBehaviour:
   m_ObjectHideFlags: 0
