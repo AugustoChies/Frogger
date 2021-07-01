@@ -1,0 +1,133 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &8875647834253106778
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3856633542569833713}
+  - component: {fileID: 7197408445000244750}
+  - component: {fileID: -3901686819448318413}
+  m_Layer: 0
+  m_Name: LadyFrogSpawner
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3856633542569833713
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8875647834253106778}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: -1.8}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 3044581147004443867}
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7197408445000244750
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8875647834253106778}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b9a4170480820048a6374e242da047e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  model: {fileID: 2381092212906477153}
+  prefabToSpawn: {fileID: 2595046262734406421, guid: 8c00f8c8453250c458b5e7e50be4dc2c, type: 3}
+--- !u!114 &-3901686819448318413
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8875647834253106778}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  NetworkInstanceId: 0
+  PrefabHash: 6976250688315396209
+  PrefabHashGenerator: LadyFrogSpawner
+  AlwaysReplicateAsRoot: 0
+  DontDestroyWithOwner: 0
+--- !u!1001 &3299519020921813808
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 3856633542569833713}
+    m_Modifications:
+    - target: {fileID: -8679921383154817045, guid: 4708f59daaae80c4683c8d573b1e5e1a, type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 4708f59daaae80c4683c8d573b1e5e1a, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.2523001
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 4708f59daaae80c4683c8d573b1e5e1a, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.2523
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 4708f59daaae80c4683c8d573b1e5e1a, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.2523001
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 4708f59daaae80c4683c8d573b1e5e1a, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.10000016
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 4708f59daaae80c4683c8d573b1e5e1a, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.397
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 4708f59daaae80c4683c8d573b1e5e1a, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0.12000036
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 4708f59daaae80c4683c8d573b1e5e1a, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: -0.76573575
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 4708f59daaae80c4683c8d573b1e5e1a, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 4708f59daaae80c4683c8d573b1e5e1a, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.6431554
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 4708f59daaae80c4683c8d573b1e5e1a, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 4708f59daaae80c4683c8d573b1e5e1a, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: -279.945
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 4708f59daaae80c4683c8d573b1e5e1a, type: 3}
+--- !u!1 &2381092212906477153 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 4708f59daaae80c4683c8d573b1e5e1a, type: 3}
+  m_PrefabInstance: {fileID: 3299519020921813808}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &3044581147004443867 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 4708f59daaae80c4683c8d573b1e5e1a, type: 3}
+  m_PrefabInstance: {fileID: 3299519020921813808}
+  m_PrefabAsset: {fileID: 0}

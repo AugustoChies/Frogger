@@ -22,6 +22,11 @@ public class PlayerMovement : NetworkBehaviour
 
     public GameObject lastCollided;
 
+    [SerializeField]
+    private Transform model;
+    [SerializeField]
+    private Vector3[] eulerRotations;
+
     public float minX, maxX;
     private void Start()
     {
@@ -53,19 +58,24 @@ public class PlayerMovement : NetworkBehaviour
     {
         if(Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow))
         {
+            model.eulerAngles = eulerRotations[0];
             StartCoroutine(GoToLane(_currentPlayerLane + 1));
         }
         if (Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow))
         {
-            StartCoroutine(GoToLane(_currentPlayerLane - 1));
+            model.eulerAngles = eulerRotations[1];
+            if (_currentPlayerLane > 0)
+                StartCoroutine(GoToLane(_currentPlayerLane - 1));
         }
         if (Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.RightArrow) && transform.position.x > minX && transform.position.x < maxX)
         {
-            if(transform.position.x + lateralMovementDistance < maxX)
+            model.eulerAngles = eulerRotations[2];
+            if (transform.position.x + lateralMovementDistance < maxX)
             StartCoroutine(MoveSideways(transform.position.x + lateralMovementDistance));
         }
         if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.LeftArrow) && transform.position.x > minX && transform.position.x < maxX)
         {
+            model.eulerAngles = eulerRotations[3];
             if (transform.position.x - lateralMovementDistance > minX)
                 StartCoroutine(MoveSideways(transform.position.x - lateralMovementDistance));
         }
@@ -206,6 +216,7 @@ public class PlayerMovement : NetworkBehaviour
 
     public void GoBackToSpawn()
     {
+        hasLadyFrog = false;
         transform.position = originalPos;
         _currentPlayerLane = 0;
         _playerState = PlayerState.Still;

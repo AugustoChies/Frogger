@@ -20,7 +20,7 @@ public class LadyFrog : NetworkBehaviour
 
     [SerializeField]
     private GameObject model = null;
-    private bool disabled = false;
+    private bool disabled = false;    
 
     void Update()
     {
@@ -30,7 +30,6 @@ public class LadyFrog : NetworkBehaviour
         if(currentTime >= timeBetweenHops)
         {
             currentTime = 0;
-            Debug.Log("Hop");
             StartCoroutine(Hop());
         }
     }
@@ -97,7 +96,6 @@ public class LadyFrog : NetworkBehaviour
     [ClientRpc]
     public void DisableClientRPC()
     {
-        Debug.Log("got here");
         DisableMe();
     }
 }

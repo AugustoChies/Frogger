@@ -76,6 +76,7 @@ MonoBehaviour:
   gatorSurfaceModel: {fileID: 8477116837658201847}
   TimetoGatorSurface: 2
   TimetoGatorDive: 2
+  gatorActive: 0
 --- !u!54 &1510443567115785278
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -238,6 +239,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -3001957510615154645, guid: 4708f59daaae80c4683c8d573b1e5e1a, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: bda7985b305ab3c4aa29eaaab53813ba, type: 2}
     - target: {fileID: 919132149155446097, guid: 4708f59daaae80c4683c8d573b1e5e1a, type: 3}
       propertyPath: m_Name
       value: frog
