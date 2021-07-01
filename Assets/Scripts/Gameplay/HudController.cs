@@ -9,6 +9,9 @@ public class HudController : MonoBehaviour
 
     public Text livesText;
 
+    public GameObject YouLoseCanvas;
+    public GameObject YouWinCanvas;
+
     private void Awake()
     {
         Instance = this;
@@ -17,5 +20,11 @@ public class HudController : MonoBehaviour
     public void UpdateLives()
     {
         livesText.text = "Lives: " + LaneManager.Instance.lives;
+        if (LaneManager.Instance.lives < 0)
+        {
+            print("You've Died");
+            NetworkInfoManager.Instance.DisablePlayers();
+            YouLoseCanvas.gameObject.SetActive(true);
+        }
     }
 }

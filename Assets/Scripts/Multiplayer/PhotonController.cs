@@ -12,7 +12,7 @@ public class PhotonController : MonoBehaviour
     public InputField roomField;
     public GameObject waitingRoomPanel;
     public GameObject photonPanelsHolder;
-
+    public bool isSinglePlayer = false;
     private void Awake()
     {
         Instance = this;
@@ -58,6 +58,7 @@ public class PhotonController : MonoBehaviour
         photonPanelsHolder.gameObject.SetActive(false);
         LaneManager.Instance.SetLevelParameters(0);
         NetworkInfoManager.Instance.EnablePlayers();
+        isSinglePlayer = true;
     }
 
     

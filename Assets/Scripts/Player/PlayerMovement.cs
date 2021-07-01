@@ -144,7 +144,7 @@ public class PlayerMovement : NetworkBehaviour
         {
             if(other.GetComponent<EndingSpot>().gatorActive || other.GetComponent<EndingSpot>().HasFrog)
             {
-                KillPlayer();
+                KillBehaviour();
             }
             else
             {
@@ -156,10 +156,10 @@ public class PlayerMovement : NetworkBehaviour
 
         if (other.CompareTag("Hazard"))
         {
-            KillPlayer();
+            KillBehaviour();
         }
 
-        if(other.CompareTag("Log") && other.gameObject != lastCollided)
+        if (other.CompareTag("Log") && other.gameObject != lastCollided)
         {
             print("Collided with log: " + other.name);
             isCollidingWithLog = true;
@@ -182,11 +182,24 @@ public class PlayerMovement : NetworkBehaviour
 
         if (_currentPlayerLane >= 6 && !isCollidingWithLog)
         {
-            KillPlayer();
+            KillBehaviour();
         }
         if(_currentPlayerLane < 6)
         {
             transform.parent = null;
+        }
+    }
+
+    public void KillBehaviour()
+    {
+        if (PhotonController.Instance.isSinglePlayer)
+        {
+            KillPlayer();
+        }
+        else
+        {
+            KillThisPlayer();
+            KillPlayerServerRPC();
         }
     }
 
@@ -197,21 +210,14 @@ public class PlayerMovement : NetworkBehaviour
             hasLadyFrog = false;
             transform.parent = null;
             transform.position = originalPos;
+            _playerState = PlayerState.Still;
             LaneManager.Instance.lives--;
             HudController.Instance.UpdateLives();
             _currentPlayerLane = 0;
-            _playerState = PlayerState.Still;
             StopAllCoroutines();
 
             print("Current Lives: " + LaneManager.Instance.lives);
-
-            if (LaneManager.Instance.lives < 0)
-            {
-                print("You've Died");
-                Destroy(this.gameObject); //temporary solution?
-            }
         }
-
     }
 
     public void GoBackToSpawn()
@@ -235,6 +241,32 @@ public class PlayerMovement : NetworkBehaviour
     public void StartLevelServerRPC()
     {
         StartLevelClientRPC();
+    }
+
+    public void KillThisPlayer()
+    {
+        hasLadyFrog = false;
+        transform.parent = null;
+        transform.position = originalPos;
+
+        _currentPlayerLane = 0;
+        _playerState = PlayerState.Still;
+        StopAllCoroutines();
+
+        print("Current Lives: " + LaneManager.Instance.lives);
+    }
+
+    [ServerRpc]
+    public void KillPlayerServerRPC()
+    {
+        KillPlayerClientRPC();
+    }
+
+    [ClientRpc]
+    public void KillPlayerClientRPC()
+    {
+        LaneManager.Instance.lives--;
+        HudController.Instance.UpdateLives();
     }
 
     public void CallLadyGot(LadyFrog frog)
