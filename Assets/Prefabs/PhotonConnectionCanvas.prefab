@@ -1054,6 +1054,8 @@ MonoBehaviour:
     NetworkTransport: {fileID: 7847495894820994216}
     RegisteredScenes:
     - Roads
+    - 
+    - PhotonCanvasTest
     AllowRuntimeSceneChanges: 0
     NetworkPrefabs:
     - Prefab: {fileID: 6044085027889888716, guid: 5513c37f05098414e8472a02f48fdb7a, type: 3}
