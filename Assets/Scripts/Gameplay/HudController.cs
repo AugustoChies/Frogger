@@ -30,6 +30,11 @@ public class HudController : MonoBehaviour
         }
     }
 
+    public void WinStuff()
+    {
+        // COLOCA COISAS AQUI
+    }
+
     public void UpdateTime(float currentTime)
     {
         timeText.text = "Remaining Time: " + currentTime.ToString("F1") + "s";

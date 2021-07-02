@@ -52,8 +52,16 @@ public class LaneManager : NetworkBehaviour
         {
             LevelID = 0;
             //reset game for now
-            Debug.Log("ResetGame");
-            PhotonController.Instance.Back();
+            //Debug.Log("ResetGame");
+            //PhotonController.Instance.Back();
+            List<PlayerMovement> players = NetworkInfoManager.Instance.players;
+            for (int i = 0; i < players.Count; i++)
+            {
+                if(IsOwner)
+                {
+                    players[i].ThrowWin();
+                }
+            }
         }
         else
         {

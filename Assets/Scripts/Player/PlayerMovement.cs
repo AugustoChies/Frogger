@@ -365,4 +365,21 @@ public class PlayerMovement : NetworkBehaviour
         LaneManager.Instance.score += score;
         HudController.Instance.UpdateScore();
     }
+
+    public void ThrowWin()
+    {
+        WinServerRPC();
+    }
+
+    [ServerRpc]
+    public void WinServerRPC()
+    {
+        WinClientRPC();
+    }
+
+    [ClientRpc]
+    public void WinClientRPC()
+    {
+        HudController.Instance.WinStuff();
+    }
 }
