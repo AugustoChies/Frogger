@@ -1350,7 +1350,7 @@ MonoBehaviour:
   LevelID: 0
   lives: 5
   score: 0
-  totalTime: 15
+  totalTime: 25
 --- !u!114 &1945753023
 MonoBehaviour:
   m_ObjectHideFlags: 0
