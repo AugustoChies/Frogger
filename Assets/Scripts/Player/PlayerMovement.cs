@@ -38,6 +38,7 @@ public class PlayerMovement : NetworkBehaviour
 
     private float currentTime;
 
+
     private void Start()
     {
         NetworkInfoManager.Instance.players.Add(this);
@@ -73,6 +74,11 @@ public class PlayerMovement : NetworkBehaviour
             DeathServerRpc(transform.position.x, transform.position.y, transform.position.z);
             KillBehaviour();
         }
+    }
+
+    private void OnDestroy()
+    {
+        if(PhotonController.Instance.didILeave) PhotonController.disconnectionHappened = true;
     }
 
     private void HandleKeyInputs()
@@ -275,18 +281,26 @@ public class PlayerMovement : NetworkBehaviour
     }
 
     [ClientRpc]
-    public void StartLevelClientRPC()
+    public void StartLevelClientRPC(bool isSinglePlayer)
     {
         PhotonController.Instance.photonPanelsHolder.gameObject.SetActive(false);
         LaneManager.Instance.SetLevelParameters(0);
         NetworkInfoManager.Instance.EnablePlayers();
         PhotonController.Instance.gameStarted = true;
+        LaneManager.Instance.lives -= 2;
+        if (isSinglePlayer && IsHost)
+        {
+            LaneManager.Instance.lives = 3;
+            LaneManager.Instance.score = 0;
+        }
+        HudController.Instance.UpdateLives();
+        HudController.Instance.UpdateScore();
     }
 
     [ServerRpc]
     public void StartLevelServerRPC()
     {
-        StartLevelClientRPC();
+        StartLevelClientRPC(PhotonController.Instance.isSinglePlayer);
     }
 
     public void KillThisPlayer()

@@ -8,7 +8,7 @@ public class HudController : MonoBehaviour
     public static HudController Instance;
 
     public Text livesText;
-    public Text timeText;
+    public GameObject timeImage;
     public Text scoreText;
 
     public GameObject YouLoseCanvas;
@@ -32,12 +32,13 @@ public class HudController : MonoBehaviour
 
     public void WinStuff()
     {
-        // COLOCA COISAS AQUI
+        NetworkInfoManager.Instance.DisablePlayers();
+        YouWinCanvas.gameObject.SetActive(true);
     }
 
     public void UpdateTime(float currentTime)
     {
-        timeText.text = "Remaining Time: " + currentTime.ToString("F1") + "s";
+        timeImage.transform.localScale = new Vector2(currentTime / LaneManager.Instance.totalTime, 1f);
     }
 
     public void UpdateScore()

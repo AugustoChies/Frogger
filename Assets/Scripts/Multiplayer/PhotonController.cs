@@ -14,11 +14,21 @@ public class PhotonController : MonoBehaviour
     public GameObject photonPanelsHolder;
     public bool isSinglePlayer = false;
     public bool gameStarted = false;
+
+    public static bool disconnectionHappened = false;
+    public GameObject disconnectionPanel;
+
+    [HideInInspector] public bool didILeave = false;
+
     private void Awake()
     {
         Instance = this;
         Application.targetFrameRate = 60;
         QualitySettings.vSyncCount = 1;
+        if(disconnectionHappened)
+        {
+            disconnectionPanel.SetActive(true);
+        }
     }
 
     private void Start()
@@ -61,11 +71,20 @@ public class PhotonController : MonoBehaviour
         NetworkInfoManager.Instance.EnablePlayers();
         isSinglePlayer = true;
         gameStarted = true;
+        LaneManager.Instance.lives -= 1;
+        HudController.Instance.UpdateLives();
     }
 
     public void Back()
     {
         if(NetworkManager.Singleton) Destroy(NetworkManager.Singleton.gameObject);
+        didILeave = true;
         SceneManager.LoadScene(SceneManager.GetActiveScene().name, LoadSceneMode.Single);
+    }
+
+    public void AcceptDisconnection()
+    {
+        disconnectionHappened = false;
+        disconnectionPanel.SetActive(false);
     }
 }
