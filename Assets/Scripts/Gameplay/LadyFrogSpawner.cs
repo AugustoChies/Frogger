@@ -17,12 +17,12 @@ public class LadyFrogSpawner : NetworkBehaviour
         {
             GameObject frog = Instantiate(prefabToSpawn, transform.position, transform.rotation, this.transform);
             frog.GetComponent<NetworkObject>().Spawn();
-            ulong id = frog.GetComponent<NetworkObject>().NetworkObjectId;
-            SpawnClientRpc(id);
+            //ulong id = frog.GetComponent<NetworkObject>().NetworkObjectId;
+            //SpawnClientRpc(id);
         }        
     }
 
-
+    //doesn't run. Left it here for showcasing :v
     [ClientRpc]
     public void SpawnClientRpc(ulong netID)
     {

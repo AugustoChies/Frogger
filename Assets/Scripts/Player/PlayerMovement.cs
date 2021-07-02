@@ -15,6 +15,14 @@ public class PlayerMovement : NetworkBehaviour
     [SerializeField] private float lateralMovementDistance;
     [SerializeField] private float playerSpeed;
 
+    [SerializeField]
+    private Animator animator = null;
+
+    [SerializeField]
+    private GameObject deathPrefab = null;
+    [SerializeField]
+    private GameObject drownPrefab = null;
+
     public bool isCollidingWithLog = false;
     public bool hasLadyFrog = false;
 
@@ -22,8 +30,6 @@ public class PlayerMovement : NetworkBehaviour
 
     public GameObject lastCollided;
 
-    [SerializeField]
-    private Transform model;
     [SerializeField]
     private Vector3[] eulerRotations;
 
@@ -58,24 +64,24 @@ public class PlayerMovement : NetworkBehaviour
     {
         if(Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow))
         {
-            model.eulerAngles = eulerRotations[0];
+            transform.eulerAngles = eulerRotations[0];
             StartCoroutine(GoToLane(_currentPlayerLane + 1));
         }
         if (Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow))
         {
-            model.eulerAngles = eulerRotations[1];
+            transform.eulerAngles = eulerRotations[1];
             if (_currentPlayerLane > 0)
                 StartCoroutine(GoToLane(_currentPlayerLane - 1));
         }
         if (Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.RightArrow) && transform.position.x > minX && transform.position.x < maxX)
         {
-            model.eulerAngles = eulerRotations[2];
+            transform.eulerAngles = eulerRotations[2];
             if (transform.position.x + lateralMovementDistance < maxX)
             StartCoroutine(MoveSideways(transform.position.x + lateralMovementDistance));
         }
         if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.LeftArrow) && transform.position.x > minX && transform.position.x < maxX)
         {
-            model.eulerAngles = eulerRotations[3];
+            transform.eulerAngles = eulerRotations[3];
             if (transform.position.x - lateralMovementDistance > minX)
                 StartCoroutine(MoveSideways(transform.position.x - lateralMovementDistance));
         }
@@ -84,6 +90,7 @@ public class PlayerMovement : NetworkBehaviour
     private IEnumerator MoveSideways(float newPosX)
     {
         _playerState = PlayerState.Moving;
+        animator.SetTrigger("Jump");
 
         isCollidingWithLog = false;
         if(transform.parent) lastCollided = transform.parent.gameObject;
@@ -110,7 +117,7 @@ public class PlayerMovement : NetworkBehaviour
     private IEnumerator GoToLane(int newLane)
     {
         _playerState = PlayerState.Moving;
-
+        animator.SetTrigger("Jump");
         isCollidingWithLog = false;
         if (transform.parent) lastCollided = transform.parent.gameObject;
         transform.parent = null;
@@ -144,6 +151,7 @@ public class PlayerMovement : NetworkBehaviour
         {
             if(other.GetComponent<EndingSpot>().gatorActive || other.GetComponent<EndingSpot>().HasFrog)
             {
+                DeathServerRpc(transform.position.x, transform.position.y, transform.position.z);
                 KillBehaviour();
             }
             else
@@ -156,6 +164,7 @@ public class PlayerMovement : NetworkBehaviour
 
         if (other.CompareTag("Hazard"))
         {
+            DeathServerRpc(transform.position.x, transform.position.y, transform.position.z);
             KillBehaviour();
         }
 
@@ -182,6 +191,7 @@ public class PlayerMovement : NetworkBehaviour
 
         if (_currentPlayerLane >= 6 && !isCollidingWithLog)
         {
+            DrownServerRpc(transform.position.x, transform.position.y, transform.position.z);
             KillBehaviour();
         }
         if(_currentPlayerLane < 6)
@@ -191,7 +201,7 @@ public class PlayerMovement : NetworkBehaviour
     }
 
     public void KillBehaviour()
-    {
+    {        
         if (PhotonController.Instance.isSinglePlayer)
         {
             KillPlayer();
@@ -289,5 +299,19 @@ public class PlayerMovement : NetworkBehaviour
     public void GetToEndClientRPC(int index)
     {
         StageControl.CurrentStage.ActivateFrog(index);
+    }
+
+    [ServerRpc]
+    public void DeathServerRpc(float XPosition, float Yposition,float Zposition)
+    {
+        GameObject frog = Instantiate(deathPrefab, new Vector3(XPosition,Yposition,Zposition), this.transform.rotation);
+        frog.GetComponent<NetworkObject>().Spawn();
+    }
+
+    [ServerRpc]
+    public void DrownServerRpc(float XPosition, float Yposition, float Zposition)
+    {
+        GameObject frog = Instantiate(drownPrefab, new Vector3(XPosition, Yposition, Zposition), this.transform.rotation);
+        frog.GetComponent<NetworkObject>().Spawn();
     }
 }

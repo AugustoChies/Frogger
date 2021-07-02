@@ -20,8 +20,12 @@ public class LadyFrog : NetworkBehaviour
 
     [SerializeField]
     private GameObject model = null;
-    private bool disabled = false;    
+    private bool disabled = false;
 
+    [SerializeField]
+    private Animator animator = null;
+
+   
     void Update()
     {
         if (disabled) return;
@@ -33,6 +37,8 @@ public class LadyFrog : NetworkBehaviour
             StartCoroutine(Hop());
         }
     }
+
+    
 
     Vector3 newPos, originalPos;
     IEnumerator Hop()
@@ -56,7 +62,8 @@ public class LadyFrog : NetworkBehaviour
         {
             newPos.z = originalPos.z - distanceperHop;
         }
-        
+
+        animator.SetTrigger("Jump");
         for (float i = 0; i < timeperHop; i+= Time.deltaTime)
         {
             this.transform.localPosition = Vector3.Lerp(originalPos, newPos, i / timeperHop);
@@ -76,7 +83,12 @@ public class LadyFrog : NetworkBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if(other.CompareTag("Player"))
+        if (transform.parent == null)
+        {
+            transform.parent = other.transform;
+        }
+
+        if (other.CompareTag("Player"))
         {
             other.GetComponent<PlayerMovement>().CallLadyGot(this);
         }

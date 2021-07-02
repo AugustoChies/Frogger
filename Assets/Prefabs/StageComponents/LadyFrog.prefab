@@ -65,6 +65,7 @@ MonoBehaviour:
   timeBetweenHops: 2
   hopsDone: 0
   model: {fileID: 4923876945751732166}
+  animator: {fileID: 5037114498570626985}
 --- !u!54 &-7391584857284681857
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -98,6 +99,25 @@ MonoBehaviour:
   PrefabHashGenerator: LadyFrog
   AlwaysReplicateAsRoot: 0
   DontDestroyWithOwner: 0
+--- !u!95 &5037114498570626985
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4923876945751732166}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 6df1a6cb04b4ff24f92eb632506f38d4, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1001 &5229935013285941911
 PrefabInstance:
   m_ObjectHideFlags: 0

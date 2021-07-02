@@ -923,6 +923,7 @@ MonoBehaviour:
   waitingRoomPanel: {fileID: 7847495894362930890}
   photonPanelsHolder: {fileID: 7847495895643144704}
   isSinglePlayer: 0
+  gameStarted: 0
 --- !u!1 &7847495894418905108
 GameObject:
   m_ObjectHideFlags: 0
@@ -1061,6 +1062,10 @@ MonoBehaviour:
     - Prefab: {fileID: 6044085027889888716, guid: 5513c37f05098414e8472a02f48fdb7a, type: 3}
       PlayerPrefab: 1
     - Prefab: {fileID: 2595046262734406421, guid: 8c00f8c8453250c458b5e7e50be4dc2c, type: 3}
+      PlayerPrefab: 0
+    - Prefab: {fileID: 4461075858876435518, guid: 62e4df100ec67934da6321793f0de99d, type: 3}
+      PlayerPrefab: 0
+    - Prefab: {fileID: 5729317795315098467, guid: 586c229f58ac0bd4b911ae57721a05f5, type: 3}
       PlayerPrefab: 0
     PlayerPrefabHash:
       id: 0
