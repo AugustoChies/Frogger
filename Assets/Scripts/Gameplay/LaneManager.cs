@@ -22,8 +22,6 @@ public class LaneManager : NetworkBehaviour
     public float score = 0;
     public float totalTime = 15f;
 
-    private float currentTime;
-
     private bool timeRanOut = false;
     private void Awake()
     {
@@ -31,22 +29,6 @@ public class LaneManager : NetworkBehaviour
         QualitySettings.vSyncCount = 1;
 
         Instance = this;
-
-        currentTime = totalTime;
-    }
-
-    private void Update()
-    {
-        if (!PhotonController.Instance.gameStarted) return;
-
-        currentTime -= Time.deltaTime;
-        HudController.Instance.UpdateTime(currentTime);
-        if(currentTime < 0 && !timeRanOut)
-        {
-            timeRanOut = true;
-            if (!PhotonController.Instance.isSinglePlayer) OutOfTimeServerRPC();
-            else if(IsOwner) HudController.Instance.EndGameOutOfTime();
-        }
     }
 
     public void SetLevelParameters(int levelID)

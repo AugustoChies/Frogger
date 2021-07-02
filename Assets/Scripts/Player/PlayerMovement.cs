@@ -34,10 +34,15 @@ public class PlayerMovement : NetworkBehaviour
     private Vector3[] eulerRotations;
 
     public float minX, maxX;
+
+    private float currentTime;
+
     private void Start()
     {
         NetworkInfoManager.Instance.players.Add(this);
         if (!IsOwner) return;
+
+        currentTime = LaneManager.Instance.totalTime;
 
         HudController.Instance.UpdateLives();
 
@@ -53,10 +58,19 @@ public class PlayerMovement : NetworkBehaviour
     {
         if (!IsOwner) return;
 
+        if (!PhotonController.Instance.gameStarted) return;
 
         if (_playerState == PlayerState.Still)
         {
             HandleKeyInputs();
+        }
+
+        currentTime -= Time.deltaTime;
+        HudController.Instance.UpdateTime(currentTime);
+        if (currentTime < 0)
+        {
+            DeathServerRpc(transform.position.x, transform.position.y, transform.position.z);
+            KillBehaviour();
         }
     }
 
@@ -217,6 +231,8 @@ public class PlayerMovement : NetworkBehaviour
     {
         if (IsOwner)
         {
+            currentTime = LaneManager.Instance.totalTime;
+            transform.rotation = Quaternion.identity;
             hasLadyFrog = false;
             transform.parent = null;
             transform.position = originalPos;
@@ -232,8 +248,10 @@ public class PlayerMovement : NetworkBehaviour
 
     public void GoBackToSpawn()
     {
+        currentTime = LaneManager.Instance.totalTime;
         hasLadyFrog = false;
         transform.position = originalPos;
+        transform.rotation = Quaternion.identity;
         _currentPlayerLane = 0;
         _playerState = PlayerState.Still;
         StopAllCoroutines();
@@ -256,6 +274,8 @@ public class PlayerMovement : NetworkBehaviour
 
     public void KillThisPlayer()
     {
+        currentTime = LaneManager.Instance.totalTime;
+        transform.rotation = Quaternion.identity;
         hasLadyFrog = false;
         transform.parent = null;
         transform.position = originalPos;
