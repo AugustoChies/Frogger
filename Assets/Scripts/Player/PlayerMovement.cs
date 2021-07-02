@@ -11,6 +11,7 @@ public class PlayerMovement : NetworkBehaviour
     [SerializeField] private PlayerState _playerState = PlayerState.Inactive;
     public PlayerState ThisPlayerState { get => _playerState; set => _playerState = value;}
     [SerializeField] private int _currentPlayerLane = 0;
+    private int furthestLane = 0;
 
     [SerializeField] private float lateralMovementDistance;
     [SerializeField] private float playerSpeed;
@@ -143,7 +144,11 @@ public class PlayerMovement : NetworkBehaviour
         }
 
         _currentPlayerLane = newLane;
-
+        if(_currentPlayerLane > furthestLane)
+        {
+            furthestLane = _currentPlayerLane;
+            ScoreServerRPC(1);
+        }
 
         lastCollided = this.gameObject;
         GetComponent<CapsuleCollider>().enabled = false;
@@ -170,8 +175,18 @@ public class PlayerMovement : NetworkBehaviour
             }
             else
             {
+                if (hasLadyFrog)
+                {
+                    ScoreServerRPC(75);
+                }
+                else
+                {
+                    ScoreServerRPC(25);
+                }
                 GoBackToSpawn();
                 int id = StageControl.CurrentStage.endingSpots.IndexOf(other.GetComponent<EndingSpot>());
+
+                
                 GetToEndServerRPC(id);
             }            
         }
@@ -240,6 +255,7 @@ public class PlayerMovement : NetworkBehaviour
             LaneManager.Instance.lives--;
             HudController.Instance.UpdateLives();
             _currentPlayerLane = 0;
+            furthestLane = 0;
             StopAllCoroutines();
 
             print("Current Lives: " + LaneManager.Instance.lives);
@@ -253,6 +269,7 @@ public class PlayerMovement : NetworkBehaviour
         transform.position = originalPos;
         transform.rotation = Quaternion.identity;
         _currentPlayerLane = 0;
+        furthestLane = 0;
         _playerState = PlayerState.Still;
         StopAllCoroutines();
     }
@@ -281,6 +298,7 @@ public class PlayerMovement : NetworkBehaviour
         transform.position = originalPos;
 
         _currentPlayerLane = 0;
+        furthestLane = 0;
         _playerState = PlayerState.Still;
         StopAllCoroutines();
 
@@ -333,5 +351,18 @@ public class PlayerMovement : NetworkBehaviour
     {
         GameObject frog = Instantiate(drownPrefab, new Vector3(XPosition, Yposition, Zposition), this.transform.rotation);
         frog.GetComponent<NetworkObject>().Spawn();
+    }
+
+    [ServerRpc]
+    public void ScoreServerRPC(int score)
+    {
+        ScoreClientRPC(score);
+    }
+
+    [ClientRpc]
+    public void ScoreClientRPC(int score)
+    {
+        LaneManager.Instance.score += score;
+        HudController.Instance.UpdateScore();
     }
 }

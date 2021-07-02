@@ -31,6 +31,11 @@ public class LaneManager : NetworkBehaviour
         Instance = this;
     }
 
+    private void Start()
+    {
+        NetworkManager.Singleton.OnClientDisconnectCallback += BreakConnection;
+    }
+
     public void SetLevelParameters(int levelID)
     {
         if(currentStage != null)
@@ -55,6 +60,19 @@ public class LaneManager : NetworkBehaviour
             NetworkInfoManager.Instance.EnablePlayers();
             SetLevelParameters(LevelID);
         }
+    }
+
+    public void BreakConnection(ulong required)
+    {
+        if (NetworkManager.Singleton.IsServer)
+        {
+            NetworkManager.Singleton.StopServer();
+        }
+        if (NetworkManager.Singleton.IsClient)
+        {
+            NetworkManager.Singleton.StopClient();
+        }
+        PhotonController.Instance.Back();
     }
 
     [ServerRpc]

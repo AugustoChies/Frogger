@@ -35,6 +35,11 @@ public class HudController : MonoBehaviour
         timeText.text = "Remaining Time: " + currentTime.ToString("F1") + "s";
     }
 
+    public void UpdateScore()
+    {
+        scoreText.text = "Score: " + LaneManager.Instance.score;
+    }
+
     public void EndGameOutOfTime()
     {
         print("You've Died");

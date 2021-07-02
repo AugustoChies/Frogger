@@ -1111,7 +1111,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_NickName: 
   m_RoomName: Frogger3D
-  m_MaxPlayers: 16
+  m_MaxPlayers: 2
   m_ChannelIdCodesStartRange: 0
   m_AttachSupportLogger: 0
   m_BatchMode: 1
