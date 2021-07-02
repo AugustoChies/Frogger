@@ -18,8 +18,6 @@ public class PhotonController : MonoBehaviour
     public static bool disconnectionHappened = false;
     public GameObject disconnectionPanel;
 
-    [HideInInspector] public bool didILeave = false;
-
     private void Awake()
     {
         Instance = this;
@@ -78,7 +76,6 @@ public class PhotonController : MonoBehaviour
     public void Back()
     {
         if(NetworkManager.Singleton) Destroy(NetworkManager.Singleton.gameObject);
-        didILeave = true;
         SceneManager.LoadScene(SceneManager.GetActiveScene().name, LoadSceneMode.Single);
     }
 

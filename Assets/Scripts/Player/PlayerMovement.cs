@@ -76,11 +76,6 @@ public class PlayerMovement : NetworkBehaviour
         }
     }
 
-    private void OnDestroy()
-    {
-        if(PhotonController.Instance.didILeave) PhotonController.disconnectionHappened = true;
-    }
-
     private void HandleKeyInputs()
     {
         if(Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow))

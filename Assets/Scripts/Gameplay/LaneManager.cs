@@ -80,6 +80,7 @@ public class LaneManager : NetworkBehaviour
         {
             NetworkManager.Singleton.StopClient();
         }
+        PhotonController.disconnectionHappened = true;
         PhotonController.Instance.Back();
     }
 
