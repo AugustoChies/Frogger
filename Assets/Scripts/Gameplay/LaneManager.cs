@@ -1,8 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using MLAPI;
+using MLAPI.Messaging;
+using MLAPI.Transports.PhotonRealtime;
+using UnityEngine.SceneManagement;
 
-public class LaneManager : MonoBehaviour
+public class LaneManager : NetworkBehaviour
 {
     public static LaneManager Instance;
 
@@ -15,6 +19,12 @@ public class LaneManager : MonoBehaviour
     public int LevelID = 0;
 
     public int lives = 2;
+    public float score = 0;
+    public float totalTime = 15f;
+
+    private float currentTime;
+
+    private bool timeRanOut = false;
     private void Awake()
     {
         Application.targetFrameRate = 60;
@@ -22,7 +32,21 @@ public class LaneManager : MonoBehaviour
 
         Instance = this;
 
-        //SetLevelParameters(0);
+        currentTime = totalTime;
+    }
+
+    private void Update()
+    {
+        if (!PhotonController.Instance.gameStarted) return;
+
+        currentTime -= Time.deltaTime;
+        HudController.Instance.UpdateTime(currentTime);
+        if(currentTime < 0 && !timeRanOut)
+        {
+            timeRanOut = true;
+            if (!PhotonController.Instance.isSinglePlayer) OutOfTimeServerRPC();
+            else if(IsOwner) HudController.Instance.EndGameOutOfTime();
+        }
     }
 
     public void SetLevelParameters(int levelID)
@@ -49,5 +73,23 @@ public class LaneManager : MonoBehaviour
             NetworkInfoManager.Instance.EnablePlayers();
             SetLevelParameters(LevelID);
         }
+    }
+
+    [ServerRpc]
+    public void OutOfTimeServerRPC()
+    {
+        OutOfTimeClientRPC();
+    }
+
+    [ClientRpc]
+    public void OutOfTimeClientRPC()
+    {
+        HudController.Instance.EndGameOutOfTime();
+    }
+
+    public void PlayAgain()
+    {
+        if (NetworkManager.Singleton) Destroy(NetworkManager.Singleton.gameObject);
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name, LoadSceneMode.Single);
     }
 }
