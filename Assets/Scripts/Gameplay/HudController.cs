@@ -8,6 +8,8 @@ public class HudController : MonoBehaviour
     public static HudController Instance;
 
     public Text livesText;
+    public Text timeText;
+    public Text scoreText;
 
     public GameObject YouLoseCanvas;
     public GameObject YouWinCanvas;
@@ -26,5 +28,17 @@ public class HudController : MonoBehaviour
             NetworkInfoManager.Instance.DisablePlayers();
             YouLoseCanvas.gameObject.SetActive(true);
         }
+    }
+
+    public void UpdateTime(float currentTime)
+    {
+        timeText.text = "Remaining Time: " + currentTime.ToString("F1") + "s";
+    }
+
+    public void EndGameOutOfTime()
+    {
+        print("You've Died");
+        NetworkInfoManager.Instance.DisablePlayers();
+        YouLoseCanvas.gameObject.SetActive(true);
     }
 }

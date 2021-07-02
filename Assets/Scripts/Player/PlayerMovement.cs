@@ -3,8 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using MLAPI;
-using MLAPI.Transports.PhotonRealtime;
 using MLAPI.Messaging;
+using MLAPI.Transports.PhotonRealtime;
 
 public class PlayerMovement : NetworkBehaviour
 {
@@ -235,6 +235,7 @@ public class PlayerMovement : NetworkBehaviour
         PhotonController.Instance.photonPanelsHolder.gameObject.SetActive(false);
         LaneManager.Instance.SetLevelParameters(0);
         NetworkInfoManager.Instance.EnablePlayers();
+        PhotonController.Instance.gameStarted = true;
     }
 
     [ServerRpc]
